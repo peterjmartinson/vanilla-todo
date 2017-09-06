@@ -20,6 +20,8 @@
 				todos: []
 			};
 
+      // creates a new `window.localStorage` property
+      // which acts as a local database.
 			localStorage[name] = JSON.stringify(data);
 		}
 
@@ -99,7 +101,7 @@
 
 			todos.push(updateData);
 			localStorage[this._dbName] = JSON.stringify(data);
-			callback.call(this, [updateData]);
+			callback.call(this, [updateData]); // shimmies back to the controller's callback function!  line 103.
 		}
 	};
 
