@@ -78,6 +78,7 @@
 	 */
 	Store.prototype.save = function (updateData, callback, id) {
     // updateData looks like {"title":"Do this!","completed":false}
+    // $get(
 		var data = JSON.parse(localStorage[this._dbName]);
 		var todos = data.todos;
     // console.log(JSON.stringify(todos));

@@ -4,8 +4,7 @@
   'use strict';
 
   // let db = require('../data/metadata'),
-  // Tuesday night:  you need to link this to the app.
-  let db = require('../data/todos'),
+  let db = require('../data/todos').todos,
       dbfunction = {};
 
   // todo: autopopulate the ID
