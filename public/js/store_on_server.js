@@ -29,16 +29,6 @@
 	}
 
 	/**
-	 * Will retrieve all data from the collection
-	 *
-	 * @param {function} callback The callback to fire upon retrieving data
-	 */
-	Store.prototype.findAll = function (callback) {
-		callback = callback || function () {};
-		callback.call(this, JSON.parse(localStorage[this._dbName]).todos);
-	};
-
-	/**
 	 * Finds items based on a query given as a JS object
 	 *
 	 * @param {object} query The query to match against (i.e. {foo: 'bar'})
@@ -56,16 +46,26 @@
 			return;
 		}
 
-    this.findAll(function(todos) {
-      callback.call(this, todos.filter(function (todo) {
-        for (var q in query) {
-          if (query[q] !== todo[q]) {
-            return false;
-          }
-        }
-        return true;
-      }));
-    });
+		var todos = JSON.parse(localStorage[this._dbName]).todos;
+
+		callback.call(this, todos.filter(function (todo) {
+			for (var q in query) {
+				if (query[q] !== todo[q]) {
+					return false;
+				}
+			}
+			return true;
+		}));
+	};
+
+	/**
+	 * Will retrieve all data from the collection
+	 *
+	 * @param {function} callback The callback to fire upon retrieving data
+	 */
+	Store.prototype.findAll = function (callback) {
+		callback = callback || function () {};
+		callback.call(this, JSON.parse(localStorage[this._dbName]).todos);
 	};
 
 	/**
@@ -77,14 +77,12 @@
 	 * @param {number} id An optional param to enter an ID of an item to update
 	 */
 	Store.prototype.save = function (updateData, callback, id) {
-    // updateData looks like {"title":"Do this!","completed":false}
 		var data = JSON.parse(localStorage[this._dbName]);
 		var todos = data.todos;
-    // console.log(JSON.stringify(todos));
+
 		callback = callback || function () {};
 
 		// If an ID was actually given, find the item and update each property
-    // ==== UPDATE
 		if (id) {
 			for (var i = 0; i < todos.length; i++) {
 				if (todos[i].id === id) {
@@ -95,21 +93,15 @@
 				}
 			}
 
-      // the save - note, had to cache the DB above for this to work
 			localStorage[this._dbName] = JSON.stringify(data);
 			callback.call(this, todos);
-    // ==== CREATE
 		} else {
 			// Generate an ID
 			updateData.id = new Date().getTime();
 
-      // the save - note, had to cache the DB above for this to work
-      todos.push(updateData);
+			todos.push(updateData);
 			localStorage[this._dbName] = JSON.stringify(data);
 			callback.call(this, [updateData]); // shimmies back to the controller's callback function!  line 103.
-
-      // undefined, as yet...
-      // window.$get('/file' + 'test.md', console.log);
 		}
 	};
 
