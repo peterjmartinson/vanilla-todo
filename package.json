@@ -11,8 +11,6 @@
   "license": "ISC",
   "private": true,
   "dependencies": {
-    "todomvc-common": "^1.0.1",
-    "todomvc-app-css": "^2.0.1",
     "body-parser": "^1.17.2",
     "express": "^4.15.4",
     "mongodb": "^2.2.31"
