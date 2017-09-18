@@ -48,14 +48,17 @@
 
 		var todos = JSON.parse(localStorage[this._dbName]).todos;
 
-		callback.call(this, todos.filter(function (todo) {
-			for (var q in query) {
-				if (query[q] !== todo[q]) {
-					return false;
-				}
-			}
-			return true;
-		}));
+    $get('/alltodos', function(data) {
+      var todos = JSON.parse(data);
+      callback.call(this, todos.filter(function (todo) {
+        for (var q in query) {
+          if (query[q] !== todo[q]) {
+            return false;
+          }
+        }
+        return true;
+      }));
+    });
 	};
 
 	/**
