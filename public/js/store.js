@@ -65,8 +65,10 @@
 	 */
 	Store.prototype.findAll = function (callback) {
 		callback = callback || function () {};
-    $get('/alltodos', console.log);
-		callback.call(this, JSON.parse(localStorage[this._dbName]).todos);
+    $get('/alltodos', function(data) {
+      callback.call(this, JSON.parse(data));
+    });
+		// callback.call(this, JSON.parse(localStorage[this._dbName]).todos);
 	};
 
 	/**
