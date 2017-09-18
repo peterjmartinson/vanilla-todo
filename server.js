@@ -46,6 +46,18 @@
     });
   });
 
+  app.get('/alltodos', function(req, res) {
+    model.readAllItems(function(response) {
+      if (response) {
+          res.send(response);
+      }
+      else {
+        res.send('File Not Found');
+      }
+    });
+  });
+      
+
   app.listen(port, function (){
     console.log('Server is listening to %d port in %s mode',port,app.settings.env);
   });

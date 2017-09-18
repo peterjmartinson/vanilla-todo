@@ -41,6 +41,7 @@
   };
 
   dbfunction.readAllItems = function (callback) {
+    console.log(db);
     callback(db);
   };
 
