@@ -11,7 +11,6 @@
         model      = require('./bin/model');
 
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
   app.use(express.static(__dirname + '/public'));
 
   app.use(logError);
@@ -57,6 +56,14 @@
     });
   });
       
+  app.post('/newtodo', function(req, res) {
+    console.log(req.body);
+    model.createItem(req.body, function(response) {
+      if (response) {
+          res.send(response);
+      }
+    });
+  });
 
   app.listen(port, function (){
     console.log('Server is listening to %d port in %s mode',port,app.settings.env);

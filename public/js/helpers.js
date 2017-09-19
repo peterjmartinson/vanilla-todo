@@ -26,7 +26,30 @@
           handle(response);
         }
         else {
-          console.log('Error: ' + request.status);
+          console.log('GET Error: ' + request.status);
+        }
+      }
+    }
+  };
+
+  window.$post = function (route, parcel, handle) {
+    let DONE = 4, OK = 200,
+        request = new XMLHttpRequest();
+    if (!request) {
+      console.log('Unable to create request.  Giving up.');
+      return false;
+    }
+    request.open('POST', route);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.send(parcel);
+    request.onreadystatechange = function() {
+      if (request.readyState === DONE) {
+        if (request.status === OK) {
+          let response = request.responseText;
+          handle(response);
+        }
+        else {
+          console.log('POST Error: ' + request.status);
         }
       }
     }
