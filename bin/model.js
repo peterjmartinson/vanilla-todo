@@ -40,8 +40,13 @@
     }
   };
 
-  dbfunction.readAllItems = function (callback) {
-    callback(db);
+  dbfunction.readAllItems = function (req, res) {
+      if (db) {
+        res.send(db);
+      }
+      else {
+        res.send('File Not Found');
+      }
   };
 
   dbfunction.readItem = function (item_id, callback) {

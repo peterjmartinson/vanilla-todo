@@ -8,7 +8,8 @@
         port       = 3000,
         bodyParser = require('body-parser'),
         fs         = require('fs'),
-        model      = require('./bin/model');
+        model      = require('./bin/model'),
+        routes     = require('./bin/routes');
 
   app.use(bodyParser.json());
   app.use(express.static(__dirname + '/public'));
@@ -45,16 +46,7 @@
     });
   });
 
-  app.get('/alltodos', function(req, res) {
-    model.readAllItems(function(response) {
-      if (response) {
-          res.send(response);
-      }
-      else {
-        res.send('File Not Found');
-      }
-    });
-  });
+  app.get('/alltodos', model.readAllItems);
       
   app.post('/newtodo', function(req, res) {
     console.log(req.body);
