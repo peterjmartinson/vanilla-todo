@@ -84,10 +84,37 @@
 	 */
 	Store.prototype.save = function (updateData, callback, id) {
 		var data = JSON.parse(localStorage[this._dbName]);
-		var todos = data.todos;
+		var todos = data.todos; // note, deprecated with server.
 
 		callback = callback || function () {};
     
+		// if (id) {
+// window.$get('/alltodos', function(data) {
+  // var todos = JSON.parse(data);
+  // for (var i = 0; i < todos.length; i++) {
+    // if (todos[i].id === id) {
+      // for (var key in updateData) {
+        // todos[i][key] = updateData[key];
+      // }
+      // break;
+    // }
+  // }
+  // window.$post('/replacetodos', JSON.stringify(updateData), function(response) {
+    // callback.call(this, [updateData]); // shimmies back to the controller's callback function!  line 103.
+  // });
+// });
+		// 	for (var i = 0; i < todos.length; i++) {
+		// 		if (todos[i].id === id) {
+		// 			for (var key in updateData) {
+		// 				todos[i][key] = updateData[key];
+		// 			}
+		// 			break;
+		// 		}
+		// 	}
+
+		// 	localStorage[this._dbName] = JSON.stringify(data);
+		// 	callback.call(this, todos);
+		// }
 
 		// If an ID was actually given, find the item and update each property
 		if (id) {
@@ -105,6 +132,8 @@
 		} else {
 			// Generate an ID
 			updateData.id = new Date().getTime();
+
+      // push updateData onto the server's stack
       window.$post('/newtodo', JSON.stringify(updateData), function(response) {
         callback.call(this, [updateData]); // shimmies back to the controller's callback function!  line 103.
       });
