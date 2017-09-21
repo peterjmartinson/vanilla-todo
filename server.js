@@ -46,9 +46,9 @@
     });
   });
 
-  app.get('/alltodos', model.readAllItems);
-      
-  app.post('/newtodo', function(req, res) {
+  app.get('/todos', model.readAllItems);
+
+  app.post('/todo', function(req, res) {
     console.log(req.body);
     model.createItem(req.body, function(response) {
       if (response) {
@@ -56,6 +56,12 @@
       }
     });
   });
+
+  app.get('/todo:id', function() {});
+      
+  app.put('/todo:id', function() {});
+
+  app.delete('/todo:id', function() {});
 
   app.listen(port, function (){
     console.log('Server is listening to %d port in %s mode',port,app.settings.env);
