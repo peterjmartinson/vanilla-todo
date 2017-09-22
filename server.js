@@ -46,22 +46,28 @@
     });
   });
 
-  app.get('/todos', model.readAllItems);
+  // Return all todos
+  app.get('/api/todo', model.readAllItems);
 
-  app.post('/todo', function(req, res) {
-    console.log(req.body);
-    model.createItem(req.body, function(response) {
-      if (response) {
-          res.send(response);
-      }
-    });
-  });
+  // Create one new todo
+  app.post('/api/todo', model.createItem);
+  // app.post('/api/todo', function(req, res) {
+  //   console.log(req.body);
+  //   model.createItem(req.body, function(response) {
+  //     if (response) {
+  //         res.send(response);
+  //     }
+  //   });
+  // });
 
-  app.get('/todo:id', function() {});
+  // Return one todo by ID
+  app.get('/api/todo:id', function() {});
       
-  app.put('/todo:id', function() {});
+  // Update one todo by ID
+  app.put('/api/todo:id', function() {});
 
-  app.delete('/todo:id', function() {});
+  // Delete one todo by ID
+  app.delete('/api/todo:id', function() {});
 
   app.listen(port, function (){
     console.log('Server is listening to %d port in %s mode',port,app.settings.env);

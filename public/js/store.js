@@ -48,7 +48,7 @@
 
 		var todos = JSON.parse(localStorage[this._dbName]).todos;
 
-    window.$get('/todos', function(data) {
+    window.$get('/api/todo', function(data) {
       var todos = JSON.parse(data);
       callback.call(this, todos.filter(function (todo) {
         for (var q in query) {
@@ -68,7 +68,7 @@
 	 */
 	Store.prototype.findAll = function (callback) {
 		callback = callback || function () {};
-    window.$get('/todos', function(data) {
+    window.$get('/api/todo', function(data) {
       callback.call(this, JSON.parse(data));
     });
 		// callback.call(this, JSON.parse(localStorage[this._dbName]).todos);
@@ -134,7 +134,7 @@
 			updateData.id = new Date().getTime();
 
       // push updateData onto the server's stack
-      window.$post('/todo', JSON.stringify(updateData), function(response) {
+      window.$post('/api/todo', JSON.stringify(updateData), function(response) {
         callback.call(this, [updateData]); // shimmies back to the controller's callback function!  line 103.
       });
 		}
