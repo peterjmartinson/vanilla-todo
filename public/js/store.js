@@ -48,7 +48,8 @@
 
 		var todos = JSON.parse(localStorage[this._dbName]).todos;
 
-    window.$get('/api/todo' + query, console.log);
+    console.log("query: " + JSON.stringify(query));
+    window.$get('/api/todo' + JSON.stringify(query), console.log);
 
     window.$get('/api/todo', function(data) {
       var todos = JSON.parse(data);

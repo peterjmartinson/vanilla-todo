@@ -7,6 +7,24 @@
   let db = require('../data/todos').todos,
       dbfunction = {};
 
+  // dbfunction.readItem = function (item_id, callback) {
+  dbfunction.readItem = function (req, res) {
+    console.log(req.params.query);
+    res.send(req.params.query);
+    // let item_index = findIndex(req.params.id);
+    // let response = { success: false, message: '', item: db[item_index] || {} };
+    // if (item_index < 0) {
+    //   response.message = 'Item not found';
+    //   callback(response);
+    // }
+    // else {
+    //   response.success = true;
+    //   response.message = 'Item successfully found';
+    //   response.item = db[item_index];
+    //   callback(response);
+    // }
+  };
+
   // todo: autopopulate the ID
   dbfunction.createItem = function (req, res) {
     let response = { success: false, message: '', item: req.body };
@@ -47,24 +65,6 @@
       else {
         res.send('File Not Found');
       }
-  };
-
-  // dbfunction.readItem = function (item_id, callback) {
-  dbfunction.readItem = function (req, res) {
-    console.log(JSON.stringify(req.params.id));
-    res.send(JSON.stringify(req.params.id));
-    // let item_index = findIndex(req.params.id);
-    // let response = { success: false, message: '', item: db[item_index] || {} };
-    // if (item_index < 0) {
-    //   response.message = 'Item not found';
-    //   callback(response);
-    // }
-    // else {
-    //   response.success = true;
-    //   response.message = 'Item successfully found';
-    //   response.item = db[item_index];
-    //   callback(response);
-    // }
   };
 
   dbfunction.deleteItem = function (item_id, callback) {
