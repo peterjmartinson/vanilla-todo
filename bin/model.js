@@ -7,22 +7,17 @@
   let db = require('../data/todos').todos,
       dbfunction = {};
 
-  // dbfunction.readItem = function (item_id, callback) {
   dbfunction.readItem = function (req, res) {
-    console.log(req.params.query);
-    res.send(req.params.query);
-    // let item_index = findIndex(req.params.id);
-    // let response = { success: false, message: '', item: db[item_index] || {} };
-    // if (item_index < 0) {
-    //   response.message = 'Item not found';
-    //   callback(response);
-    // }
-    // else {
-    //   response.success = true;
-    //   response.message = 'Item successfully found';
-    //   response.item = db[item_index];
-    //   callback(response);
-    // }
+    let query = JSON.parse(req.params.query);
+    let return_array = db.filter(function (todo) {
+      for (let q in query) {
+        if (query[q] !== todo[q]) {
+          return false;
+        }
+      }
+      return true;
+    });
+    res.send(return_array);
   };
 
   // todo: autopopulate the ID
