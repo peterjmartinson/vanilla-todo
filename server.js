@@ -53,7 +53,7 @@
   app.post('/api/todo', model.createItem);
 
   // Return one todo by ID
-  app.get('/api/todo:id', function() {});
+  app.get('/api/todo:id', model.readItem);
       
   // Update one todo by ID
   app.put('/api/todo:id', function() {});

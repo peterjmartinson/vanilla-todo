@@ -49,19 +49,22 @@
       }
   };
 
-  dbfunction.readItem = function (item_id, callback) {
-    let item_index = findIndex(item_id);
-    let response = { success: false, message: '', item: db[item_index] || {} };
-    if (item_index < 0) {
-      response.message = 'Item not found';
-      callback(response);
-    }
-    else {
-      response.success = true;
-      response.message = 'Item successfully found';
-      response.item = db[item_index];
-      callback(response);
-    }
+  // dbfunction.readItem = function (item_id, callback) {
+  dbfunction.readItem = function (req, res) {
+    console.log(JSON.stringify(req.params.id));
+    res.send(JSON.stringify(req.params.id));
+    // let item_index = findIndex(req.params.id);
+    // let response = { success: false, message: '', item: db[item_index] || {} };
+    // if (item_index < 0) {
+    //   response.message = 'Item not found';
+    //   callback(response);
+    // }
+    // else {
+    //   response.success = true;
+    //   response.message = 'Item successfully found';
+    //   response.item = db[item_index];
+    //   callback(response);
+    // }
   };
 
   dbfunction.deleteItem = function (item_id, callback) {
