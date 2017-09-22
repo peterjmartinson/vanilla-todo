@@ -51,14 +51,6 @@
 
   // Create one new todo
   app.post('/api/todo', model.createItem);
-  // app.post('/api/todo', function(req, res) {
-  //   console.log(req.body);
-  //   model.createItem(req.body, function(response) {
-  //     if (response) {
-  //         res.send(response);
-  //     }
-  //   });
-  // });
 
   // Return one todo by ID
   app.get('/api/todo:id', function() {});

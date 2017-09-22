@@ -9,23 +9,16 @@
 
   // todo: autopopulate the ID
   dbfunction.createItem = function (req, res) {
-    console.log(req.body);
-    model.createItem(req.body, function(response) {
-      if (response) {
-          res.send(response);
-      }
-    });
-  // dbfunction.createItem = function (new_item, callback) {
-    // let response = { success: false, message: '', item: new_item };
-    // if (db.push(new_item)) {
-    //   response.success = true;
-    //   response.message = 'New item ' + JSON.stringify(new_item) + ' has been added';
-    //   callback(response);
-    // }
-    // else {
-    //   response.message = 'Error: Item not added!';
-    //   callback(response);
-    // }
+    let response = { success: false, message: '', item: req.body };
+    if (db.push(req.body)) {
+      response.success = true;
+      response.message = 'New item ' + JSON.stringify(req.body) + ' has been added';
+      res.send(response);
+    }
+    else {
+      response.message = 'Error: Item not added!';
+      res.send(response);
+    }
   };
 
   dbfunction.updateItem = function (item_id, updated_item, callback) {
