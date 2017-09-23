@@ -25,7 +25,9 @@
 			localStorage[name] = JSON.stringify(data);
 		}
 
-		callback.call(this, JSON.parse(localStorage[name]));
+    window.$get('/api/todo', function(data) {
+      callback.call(this, JSON.parse(data));
+    });
 	}
 
 	/**
@@ -82,9 +84,6 @@
 	 * @param {number} id An optional param to enter an ID of an item to update
 	 */
 	Store.prototype.save = function (updateData, callback, id) {
-		// var data = JSON.parse(localStorage[this._dbName]);
-		// var todos = data.todos; // note, deprecated with server.
-
 		callback = callback || function () {};
     
     // UPDATE

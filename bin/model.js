@@ -42,10 +42,6 @@
       response.message = 'Item not found';
       res.send(response);
     }
-    // else if ( !updated_item || typeof updated_item !== 'string') {
-    //   response.message = 'Error - incorrect format';
-    //   callback(response);
-    // }
     else {
       for (let key in update_data) {
         db[item_index][key] = update_data[key]
