@@ -55,6 +55,29 @@
     }
   };
 
+  window.$delete = function (route, handle) {
+    let DONE = 4, OK = 200,
+        request = new XMLHttpRequest();
+    if (!request) {
+      console.log('Unable to create request.  Giving up.');
+      return false;
+    }
+    request.open('DELETE', route);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.send();
+    request.onreadystatechange = function() {
+      if (request.readyState === DONE) {
+        if (request.status === OK) {
+          let response = request.responseText;
+          handle(response);
+        }
+        else {
+          console.log('POST Error: ' + request.status);
+        }
+      }
+    }
+  };
+
 	// addEventListener wrapper:
 	window.$on = function (target, type, callback, useCapture) {
 		target.addEventListener(type, callback, !!useCapture);

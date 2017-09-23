@@ -37,7 +37,10 @@
   app.put('/api/todo:id', function() {});
 
   // Delete one todo by ID
-  app.delete('/api/todo:id', function() {});
+  app.delete('/api/todo:id', function(req,res) {
+    console.log("inside delete");
+    res.send(req.params.id);
+  });
 
   app.listen(port, function (){
     console.log('Server is listening to %d port in %s mode',port,app.settings.env);

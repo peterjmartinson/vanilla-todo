@@ -48,9 +48,6 @@
 
 		var todos = JSON.parse(localStorage[this._dbName]).todos;
 
-    console.log("query: " + JSON.stringify(query));
-    window.$get('/api/todo' + JSON.stringify(query), console.log);
-
     window.$get('/api/todo', function(data) {
       var todos = JSON.parse(data);
       callback.call(this, todos.filter(function (todo) {
@@ -74,7 +71,6 @@
     window.$get('/api/todo', function(data) {
       callback.call(this, JSON.parse(data));
     });
-		// callback.call(this, JSON.parse(localStorage[this._dbName]).todos);
 	};
 
 	/**
@@ -91,35 +87,6 @@
 
 		callback = callback || function () {};
     
-		// if (id) {
-// window.$get('/alltodos', function(data) {
-  // var todos = JSON.parse(data);
-  // for (var i = 0; i < todos.length; i++) {
-    // if (todos[i].id === id) {
-      // for (var key in updateData) {
-        // todos[i][key] = updateData[key];
-      // }
-      // break;
-    // }
-  // }
-  // window.$post('/replacetodos', JSON.stringify(updateData), function(response) {
-    // callback.call(this, [updateData]); // shimmies back to the controller's callback function!  line 103.
-  // });
-// });
-		// 	for (var i = 0; i < todos.length; i++) {
-		// 		if (todos[i].id === id) {
-		// 			for (var key in updateData) {
-		// 				todos[i][key] = updateData[key];
-		// 			}
-		// 			break;
-		// 		}
-		// 	}
-
-		// 	localStorage[this._dbName] = JSON.stringify(data);
-		// 	callback.call(this, todos);
-		// }
-
-		// If an ID was actually given, find the item and update each property
 		if (id) {
 			for (var i = 0; i < todos.length; i++) {
 				if (todos[i].id === id) {
@@ -133,12 +100,10 @@
 			localStorage[this._dbName] = JSON.stringify(data);
 			callback.call(this, todos);
 		} else {
-			// Generate an ID
 			updateData.id = new Date().getTime();
 
-      // push updateData onto the server's stack
       window.$post('/api/todo', JSON.stringify(updateData), function(response) {
-        callback.call(this, [updateData]); // shimmies back to the controller's callback function!  line 103.
+        callback.call(this, [updateData]);
       });
 		}
 	};
@@ -150,8 +115,11 @@
 	 * @param {function} callback The callback to fire after saving
 	 */
 	Store.prototype.remove = function (id, callback) {
+    console.log(id);
 		var data = JSON.parse(localStorage[this._dbName]);
 		var todos = data.todos;
+
+    window.$delete('/api/todo' + id, console.log);
 
 		for (var i = 0; i < todos.length; i++) {
 			if (todos[i].id == id) {
