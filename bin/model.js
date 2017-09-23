@@ -62,19 +62,19 @@
       }
   };
 
-  dbfunction.deleteItem = function (item_id, callback) {
-    let item_index = findIndex(item_id);
+  dbfunction.deleteItem = function (req, res) {
+    let item_index = findIndex(req.params.id);
     let response = { success: false, message: '', item: {} };
     if (item_index < 0) {
       response.message = 'Item not found';
-      callback(response);
+      res.send(response);
     }
     else {
       db.splice(item_index, 1);
       response.item = db[item_index];
       response.success = true;
       response.message = 'Success!';
-      callback(response);
+      res.send(response);
     }
   };
 

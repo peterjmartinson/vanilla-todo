@@ -82,23 +82,26 @@
 	 * @param {number} id An optional param to enter an ID of an item to update
 	 */
 	Store.prototype.save = function (updateData, callback, id) {
-		var data = JSON.parse(localStorage[this._dbName]);
-		var todos = data.todos; // note, deprecated with server.
+		// var data = JSON.parse(localStorage[this._dbName]);
+		// var todos = data.todos; // note, deprecated with server.
 
 		callback = callback || function () {};
     
 		if (id) {
-			for (var i = 0; i < todos.length; i++) {
-				if (todos[i].id === id) {
-					for (var key in updateData) {
-						todos[i][key] = updateData[key];
-					}
-					break;
-				}
-			}
-
-			localStorage[this._dbName] = JSON.stringify(data);
-			callback.call(this, todos);
+      window.$get('/api/todo', function(todos) {
+        for (var i = 0; i < todos.length; i++) {
+          if (todos[i].id === id) {
+            for (var key in updateData) {
+              todos[i][key] = updateData[key];
+            }
+            window.$put('/api/todo' + id, JSON.stringify(todos[i]), function(response) {
+              callback.call(this, todos[i]);
+            }
+            break;
+          }
+        }
+        // callback.call(this, data.todos);
+      }
 		} else {
 			updateData.id = new Date().getTime();
 
@@ -121,15 +124,6 @@
 
     window.$delete('/api/todo' + id, console.log);
 
-		for (var i = 0; i < todos.length; i++) {
-			if (todos[i].id == id) {
-				todos.splice(i, 1);
-				break;
-			}
-		}
-
-		localStorage[this._dbName] = JSON.stringify(data);
-		callback.call(this, todos);
 	};
 
 	/**
