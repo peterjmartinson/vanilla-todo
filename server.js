@@ -34,10 +34,13 @@
   app.get('/api/todo:query', model.readItem);
       
   // Update one todo by ID
-  app.put('/api/todo:id', function() {});
+  app.put('/api/todo:id', model.updateItem);
 
   // Delete one todo by ID
   app.delete('/api/todo:id', model.deleteItem);
+
+  // Delete all todos
+  app.delete('/api/todo/truncate', model.deleteAllItems);
 
   app.listen(port, function (){
     console.log('Server is listening to %d port in %s mode',port,app.settings.env);

@@ -55,6 +55,29 @@
     }
   };
 
+  window.$put = function (route, parcel, handle) {
+    let DONE = 4, OK = 200,
+        request = new XMLHttpRequest();
+    if (!request) {
+      console.log('Unable to create request.  Giving up.');
+      return false;
+    }
+    request.open('PUT', route);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.send(parcel);
+    request.onreadystatechange = function() {
+      if (request.readyState === DONE) {
+        if (request.status === OK) {
+          let response = request.responseText;
+          handle(response);
+        }
+        else {
+          console.log('PUT Error: ' + request.status);
+        }
+      }
+    }
+  };
+
   window.$delete = function (route, handle) {
     let DONE = 4, OK = 200,
         request = new XMLHttpRequest();
@@ -72,7 +95,7 @@
           handle(response);
         }
         else {
-          console.log('POST Error: ' + request.status);
+          console.log('DELETE Error: ' + request.status);
         }
       }
     }

@@ -34,22 +34,26 @@
     }
   };
 
-  dbfunction.updateItem = function (item_id, updated_item, callback) {
-    let item_index = findIndex(item_id);
-    let response = { success: false, message: '', item: updated_item };
+  dbfunction.updateItem = function (req, res) {
+    let item_index = findIndex(req.params.id);
+    let update_data = req.body;
+    let response = { success: false, message: '', item: {} };
     if (item_index < 0) {
       response.message = 'Item not found';
-      callback(response);
+      res.send(response);
     }
-    else if ( !updated_item || typeof updated_item !== 'string') {
-      response.message = 'Error - incorrect format';
-      callback(response);
-    }
+    // else if ( !updated_item || typeof updated_item !== 'string') {
+    //   response.message = 'Error - incorrect format';
+    //   callback(response);
+    // }
     else {
-      db[item_index] = { id: item_id, item: updated_item };
+      for (let key in update_data) {
+        db[item_index][key] = update_data[key]
+      }
       response.success = true;
       response.message = 'Success!';
-      callback(response);
+      response.item = db[item_index];
+      res.send(response);
     }
   };
 
@@ -77,6 +81,20 @@
       res.send(response);
     }
   };
+
+  dbfunction.deleteAllItems = function (req, res) {
+    let response = { success: false, message: '', item: {} };
+    db.splice(0);
+    if (db.length === 0) {
+      response.success = true;
+      response.message = 'Success!';
+      res.send(response);
+    }
+    else {
+      response.message = 'Unable to truncate database!';
+      res.send(response);
+    }
+  }
 
   function findIndex(item_id) {
     if ( item_id < 1) {
