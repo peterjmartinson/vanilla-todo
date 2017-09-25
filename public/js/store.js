@@ -113,7 +113,9 @@
 		var data = JSON.parse(localStorage[this._dbName]);
 		var todos = data.todos;
 
-    window.$delete('/api/todo' + id, console.log);
+    window.$delete('/api/todo' + id, function() {
+      callback.call(this, id);
+    });
 
 	};
 
