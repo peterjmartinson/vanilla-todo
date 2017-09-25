@@ -46,5 +46,4 @@
     console.log('Server is listening to %d port in %s mode',port,app.settings.env);
   });
 
-
 }());
