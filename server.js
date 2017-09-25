@@ -8,8 +8,7 @@
         port       = 3000,
         bodyParser = require('body-parser'),
         fs         = require('fs'),
-        model      = require('./bin/model'),
-        routes     = require('./bin/routes');
+        model      = require('./bin/model');
 
   app.use(bodyParser.json());
   app.use(express.static(__dirname + '/public'));
