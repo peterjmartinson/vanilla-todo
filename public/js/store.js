@@ -12,41 +12,13 @@
 	 */
 	function Store(name, callback) {
 		callback = callback || function () {};
+
 		this._dbName = name;
-		if (!localStorage[name]) {
-			var data = {
-				todos: []
-			};
-      // creates a new `window.localStorage` property
-      // which acts as a local database.
-			localStorage[name] = JSON.stringify(data);
-		}
-		callback.call(this, JSON.parse(localStorage[name]));
+
+    window.$get('/api/todo', function(data) {
+      callback.call(this, JSON.parse(data));
+    });
 	}
-
-
-
-
-
-
-
-	/**
-	 * Will retrieve all data from the collection
-	 *
-	 * @param {function} callback The callback to fire upon retrieving data
-	 */
-	Store.prototype.findAll = function (callback) {
-		callback = callback || function () {};
-		callback.call(this, JSON.parse(localStorage[this._dbName]).todos);
-	};
-
-
-
-
-
-
-
-
 
 	/**
 	 * Finds items based on a query given as a JS object
@@ -65,7 +37,9 @@
 		if (!callback) {
 			return;
 		}
-    this.findAll(function(todos) {
+
+    window.$get('/api/todo', function(data) {
+      var todos = JSON.parse(data);
       callback.call(this, todos.filter(function (todo) {
         for (var q in query) {
           if (query[q] !== todo[q]) {
@@ -77,17 +51,17 @@
     });
 	};
 
-
-
-
-
-
-
-
-
-
-
-
+	/**
+	 * Will retrieve all data from the collection
+	 *
+	 * @param {function} callback The callback to fire upon retrieving data
+	 */
+	Store.prototype.findAll = function (callback) {
+		callback = callback || function () {};
+    window.$get('/api/todo', function(data) {
+      callback.call(this, JSON.parse(data));
+    });
+	};
 
 	/**
 	 * Will save the given data to the DB. If no item exists it will create a new
@@ -98,51 +72,22 @@
 	 * @param {number} id An optional param to enter an ID of an item to update
 	 */
 	Store.prototype.save = function (updateData, callback, id) {
-    // updateData looks like {"title":"Do this!","completed":false}
-    // $get(
-		var data = JSON.parse(localStorage[this._dbName]);
-		var todos = data.todos;
-    // console.log(JSON.stringify(todos));
 		callback = callback || function () {};
-		// If an ID was actually given, find the item and update each property
-    // ==== UPDATE
+    
 		if (id) {
-			for (var i = 0; i < todos.length; i++) {
-				if (todos[i].id === id) {
-					for (var key in updateData) {
-						todos[i][key] = updateData[key];
-					}
-					break;
-				}
-			}
-      // the save - note, had to cache the DB above for this to work
-			localStorage[this._dbName] = JSON.stringify(data);
-			callback.call(this, todos);
-    // ==== CREATE
+      window.$get('/api/todo' + JSON.stringify({'id' : id}), function(todo) {
+        window.$put('/api/todo' + id, JSON.stringify(updateData), function(response) {
+          callback.call(this, response.item);
+        });
+      });
 		} else {
-			// Generate an ID
 			updateData.id = new Date().getTime();
-      // the save - note, had to cache the DB above for this to work
-      todos.push(updateData);
-			localStorage[this._dbName] = JSON.stringify(data);
-			callback.call(this, [updateData]); // shimmies back to the controller's callback function!  line 103.
-      // undefined, as yet...
-      // window.$get('/file' + 'test.md', console.log);
+
+      window.$post('/api/todo', JSON.stringify(updateData), function(response) {
+        callback.call(this, [updateData]);
+      });
 		}
 	};
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	/**
 	 * Will remove an item from the Store based on its ID
@@ -151,29 +96,10 @@
 	 * @param {function} callback The callback to fire after saving
 	 */
 	Store.prototype.remove = function (id, callback) {
-		var data = JSON.parse(localStorage[this._dbName]);
-		var todos = data.todos;
-		for (var i = 0; i < todos.length; i++) {
-			if (todos[i].id == id) {
-				todos.splice(i, 1);
-				break;
-			}
-		}
-		localStorage[this._dbName] = JSON.stringify(data);
-		callback.call(this, todos);
+    window.$delete('/api/todo' + id, function() {
+      callback.call(this, id);
+    });
 	};
-
-
-
-
-
-
-
-
-
-
-
-
 
 	/**
 	 * Will drop all storage and start fresh
@@ -181,19 +107,10 @@
 	 * @param {function} callback The callback to fire after dropping the data
 	 */
 	Store.prototype.drop = function (callback) {
-		var data = {todos: []};
-		localStorage[this._dbName] = JSON.stringify(data);
-		callback.call(this, data.todos);
+    window.$delete('/api/todo/truncate', function() {
+      callback.call(this, id);
+    });
 	};
-
-
-
-
-
-
-
-
-
 
 	// Export to window
 	window.app = window.app || {};
