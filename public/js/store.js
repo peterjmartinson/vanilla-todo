@@ -15,16 +15,6 @@
 
 		this._dbName = name;
 
-		if (!localStorage[name]) {
-			var data = {
-				todos: []
-			};
-
-      // creates a new `window.localStorage` property
-      // which acts as a local database.
-			localStorage[name] = JSON.stringify(data);
-		}
-
     window.$get('/api/todo', function(data) {
       callback.call(this, JSON.parse(data));
     });
@@ -47,8 +37,6 @@
 		if (!callback) {
 			return;
 		}
-
-		var todos = JSON.parse(localStorage[this._dbName]).todos;
 
     window.$get('/api/todo', function(data) {
       var todos = JSON.parse(data);
@@ -86,7 +74,6 @@
 	Store.prototype.save = function (updateData, callback, id) {
 		callback = callback || function () {};
     
-    // UPDATE
 		if (id) {
       window.$get('/api/todo' + JSON.stringify({'id' : id}), function(todo) {
         window.$put('/api/todo' + id, JSON.stringify(updateData), function(response) {
@@ -94,7 +81,6 @@
         });
       });
 		} else {
-      // POST
 			updateData.id = new Date().getTime();
 
       window.$post('/api/todo', JSON.stringify(updateData), function(response) {
@@ -110,13 +96,9 @@
 	 * @param {function} callback The callback to fire after saving
 	 */
 	Store.prototype.remove = function (id, callback) {
-		var data = JSON.parse(localStorage[this._dbName]);
-		var todos = data.todos;
-
     window.$delete('/api/todo' + id, function() {
       callback.call(this, id);
     });
-
 	};
 
 	/**
@@ -125,10 +107,9 @@
 	 * @param {function} callback The callback to fire after dropping the data
 	 */
 	Store.prototype.drop = function (callback) {
-    window.$delete('/api/todo/truncate', console.log);
-		// var data = {todos: []};
-		// localStorage[this._dbName] = JSON.stringify(data);
-		// callback.call(this, data.todos);
+    window.$delete('/api/todo/truncate', function() {
+      callback.call(this, id);
+    });
 	};
 
 	// Export to window
