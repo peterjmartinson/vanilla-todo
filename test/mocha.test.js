@@ -5,15 +5,15 @@ let assert = require('assert');
 let sinon = require('sinon');
 
 // initialize the test database
-for (let i = 0; i < todos.length; i++) {
-  todos.pop();
-}
-let first_item = {"title":"First test item", "completed":false, "id":10000};
-let second_item = {"title":"Second test item", "completed":false, "id":10001};
-let third_item = {"title":"Third test item", "completed":false, "id":10002};
-todos.push(first_item);
-todos.push(second_item);
-todos.push(third_item);
+// for (let i = 0; i < todos.length; i++) {
+//   todos.pop();
+// }
+// let first_item = {"title":"First test item", "completed":false, "id":10000};
+// let second_item = {"title":"Second test item", "completed":false, "id":10001};
+// let third_item = {"title":"Third test item", "completed":false, "id":10002};
+// todos.push(first_item);
+// todos.push(second_item);
+// todos.push(third_item);
 
 describe('model.js', function() {
   it('should have a Create method', function() {
@@ -30,6 +30,22 @@ describe('model.js', function() {
   });
   it('should have a Delete method', function() {
     assert.equal(typeof model.deleteItem, 'function');
+  });
+});
+
+describe('model.js - createItem()', function() {
+  it('should create a new item', function(done) {
+    let req = {
+      body : {"title":"Shiny new test item", "completed":false, "id":10004}
+    };
+    let res = {
+      send : function(data) {
+        assert.equal(todos[todos.length-1].id, 10004);
+        done();
+        return data;
+      }
+    };
+    model.createItem(req, res);
   });
 });
 
@@ -66,18 +82,6 @@ describe('model.js - readItem()', function() {
       return data;
     });
     assert.ok(!response.success);
-  });
-});
-
-describe('model.js - createItem()', function() {
-  it('should create a new item', function(done) {
-    let new_item = {id:4, item: "Fourth test item"};
-    response = model.createItem(new_item, function(data) {
-      done();
-      return data;
-    });
-    assert.equal(todos.length, 4);
-    assert.ok(response.success);
   });
 });
 
