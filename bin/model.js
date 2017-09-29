@@ -18,7 +18,6 @@
         }
         return true;
       });
-      console.log(db);
       res.send(return_array);
     },
 

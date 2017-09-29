@@ -4,16 +4,29 @@ let todos = require('../data/todos').todos;
 let assert = require('assert');
 let sinon = require('sinon');
 
-// initialize the test database
-// for (let i = 0; i < todos.length; i++) {
-//   todos.pop();
-// }
-// let first_item = {"title":"First test item", "completed":false, "id":10000};
-// let second_item = {"title":"Second test item", "completed":false, "id":10001};
-// let third_item = {"title":"Third test item", "completed":false, "id":10002};
-// todos.push(first_item);
-// todos.push(second_item);
-// todos.push(third_item);
+function createTestItem(new_item) {
+  todos.push(new_item);
+}
+
+function removeTestItem(id) {
+  let index = findIndex(id);
+  if (index) {
+    todos.splice(index, 1);
+  }
+  else {
+    console.log("No item found!");
+  }
+}
+
+function findIndex (item_id) {
+  if ( item_id < 1) {
+    return -1;
+  }
+  for (let i = 0; i < db.length; i++) {
+    if (todos[i].id == item_id) return i;
+  }
+  return -1;
+}
 
 describe('model.js', function() {
   it('should have a Create method', function() {
@@ -49,6 +62,34 @@ describe('model.js - createItem()', function() {
   });
 });
 
+describe('model.js - readItem()', function() {
+  it('should return a specific item', function(done) {
+    let test_item = {"title":"readItem's test item", "completed":false, "id":10006};
+    createTestItem(test_item);
+    let req = {
+      params : {
+        query : JSON.stringify({ "id" : 10006 })
+      }
+    };
+    let res = {
+      send : function(data) {
+        assert.equal(data[0].id, 10006);
+        done();
+        return data;
+      }
+    };
+    model.readItem(req, res);
+  });
+
+  // it('should respond gracefully to bad requests', function(done) {
+    // let response = model.readItem(-7, function(data) {
+    //   done();
+    //   return data;
+    // });
+    // assert.ok(!response.success);
+  // });
+});
+
 describe('model.js - readAllItems()', function() {
   it('should return the whole database', function() {
     let dump = [];
@@ -63,25 +104,6 @@ describe('model.js - readAllItems()', function() {
     assert.equal(res.send.calledWith, 1);
     console.log('=======================  ' + dump);
     // assert.equal(data.length, 3);
-  });
-});
-
-describe('model.js - readItem()', function() {
-  it('should return a specific item', function(done) {
-    let response = model.readItem(2, function(data) {
-      done();
-      return data;
-    });
-    assert.equal(response.item.item, second_item.item);
-    assert.ok(response.success);
-  });
-
-  it('should respond gracefully to bad requests', function(done) {
-    let response = model.readItem(-7, function(data) {
-      done();
-      return data;
-    });
-    assert.ok(!response.success);
   });
 });
 
