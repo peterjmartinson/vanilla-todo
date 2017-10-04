@@ -23,10 +23,13 @@
 
     // todo: autopopulate the ID
     createItem : function (req, res) {
-      let response = { success: false, message: '', item: req.body };
-      if (db.push(req.body)) {
+      let response = { success: false, message: '', item: {} };
+      let old_length = db.length;
+      let new_length = db.push(req.body);
+      if ( new_length > old_length ) {
+        response.item = JSON.stringify(db[db.length-1]);
         response.success = true;
-        response.message = 'New item ' + JSON.stringify(req.body) + ' has been added';
+        response.message = 'New item ' + response.item + ' has been added';
         res.send(response);
       }
       else {
