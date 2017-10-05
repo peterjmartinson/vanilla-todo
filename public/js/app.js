@@ -12,7 +12,9 @@
 		this.model      = new app.Model(this.storage);
 		this.template   = new app.Template();
 		this.view       = new app.View(this.template);
+    this.view_2     = new app.View(this.template_2);
 		this.controller = new app.Controller(this.model, this.view);
+		this.controller_2 = new app.Controller(this.model, this.view_2);
 	}
 
 	var todo = new Todo('todos-vanillajs');
