@@ -52,4 +52,31 @@ REST handlers.
 
 With a view towards passing information across the internets, I
 created four new methods here:  `$get`, `$post`, `$put`, and
-`$delete`.
+`$delete`.  They all work like `$get`, seen here:
+
+```JAVASCRIPT
+    window.$get = function (route, handle) {
+      let DONE = 4, OK = 200,
+          request = new XMLHttpRequest();
+      if (!request) {
+        console.log('Unable to create request.  Giving up.');
+        return false;
+      }
+      request.open('GET', route);
+      request.send();
+      request.onreadystatechange = function() {
+        if (request.readyState === DONE) {
+          if (request.status === OK) {
+            let response = request.responseText;
+            handle(response);
+          }
+          else {
+            console.log('GET Error: ' + request.status);
+          }
+        }
+      }
+    };
+```
+
+The function takes two arguments, a `route` and a callbacks called `handle`.  The
+route ultimately matches up with one of the Express routes in the server.
