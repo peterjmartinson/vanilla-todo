@@ -1,0 +1,308 @@
+commit e1b469a6f82dbefd0f84e7984d1be24b2f23a8ac
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Sun Sep 24 22:31:23 2017 -0400
+
+    Dump the readme
+
+commit 83d555cc171987c2cb59412a842d1eb97e65a7ce
+Merge: 57f624b 822aab4
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Sun Sep 24 22:28:30 2017 -0400
+
+    Merge branch 'dev/add-server'
+    
+    The use of `localStorage` to store todos was replaced by storage on a
+    server.  This is an intermediate step to using a full blown database
+    to store data.
+
+commit 822aab4114291b9612829062ac342594a59e4719
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Mon Sep 25 17:13:14 2017 -0400
+
+    Truncate the current 'database'
+
+commit 699a494047a9cfda99a35aa6e838d6b441c18ff1
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Mon Sep 25 17:08:47 2017 -0400
+
+    Dump a useless file
+
+commit 1be2d6f34975b8d6d02f7b9a8af12390e52c7919
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Mon Sep 25 17:07:23 2017 -0400
+
+    Remove localStorage from public/bin/store.js
+    
+    All items are now stored on the Server.
+
+commit 842026754c580a0e4398ef0c3535b7f7ca5627be
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Mon Sep 25 17:02:31 2017 -0400
+
+    Simple refactor of bin/model.js
+    
+    make it a real object.
+
+commit 8d84f2c99e06d044ea53a9ce46be6a5e65b93ff5
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Mon Sep 25 08:06:56 2017 -0400
+
+    Update screen on delete
+    
+    I forgot to include the callback.  Now, everything works properly.
+    Time to clean out all remnants of localStorage, and generally clean
+    the code.
+
+commit c68aa13a2ce7ef402ac4a3f96126c254953270c3
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Sat Sep 23 00:03:05 2017 -0400
+
+    Trace out the Update path
+    
+    The list is not updating properly when a todo is checked off.
+    
+    1. Use breakpoints to find out what gets called when.
+    2. Find out why `render` isn't working!!
+
+commit b0600d01a7bef703b5379aa0f658d4d968c24a89
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Fri Sep 22 23:45:42 2017 -0400
+
+    Complete all REST routes
+    
+    All the routes work correctly now.  However, deleting todos does not
+    properly update the list.  This may have to do with the "constructor"
+    for Store.  The constructor does two things.
+    
+    1. Create the storage if it doesn't yet exist
+    2. Send the storage to a callback
+    
+    Work on the second.  Worry about the first later.
+
+commit c22fb7f86955852719a302aa491acef3ec431cc1
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Fri Sep 22 22:35:53 2017 -0400
+
+    Attempt to get Update(PUT) to work correctly
+    
+    Currently, POST is a mess!
+
+commit 7d8fc036487219af9ec70684b80550030fbd864f
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Fri Sep 22 21:38:40 2017 -0400
+
+    Begin assembling Delete
+
+commit 8d9460efee78c5ff60309f760b589fa7cb8b678f
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Fri Sep 22 17:08:18 2017 -0400
+
+    Return documents that satisfy query from server
+    
+    The issue was in the JSON.stringify thing.
+    
+    Next, make sure that the client is actually using what's passed from
+    the server!
+
+commit 2741a4f26d5c5600ecbe12df4681e020f45c71d5
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Fri Sep 22 16:58:14 2017 -0400
+
+    Successfully catch the query object in Find
+    
+    The trick is, when you send something through a route, you need to
+    first `JSON.stringify` it!!
+
+commit f3ae4f9d5ef0752b422fb4a8363a614c54659877
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Fri Sep 22 08:06:51 2017 -0400
+
+    Begin building the Find One route
+    
+    Not sure how to pass the query object yet...
+
+commit e609716ded443742d64f2c4c9171b989234deaa5
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Thu Sep 21 22:39:03 2017 -0400
+
+    Shunt the Create method to model.js
+
+commit 68bc350b5031ebb956da288fa3625a15a54dab1d
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Thu Sep 21 21:28:34 2017 -0400
+
+    Work on the Create route
+
+commit 92ee7e2160daeb804c829da3b7076cc4621c4212
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Wed Sep 20 21:31:58 2017 -0400
+
+    Start building out the other routes.
+
+commit 5fef8041fb3a1cd2ed1b1666c2f736220a5607b3
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Tue Sep 19 08:02:18 2017 -0400
+
+    Move readAll logic away from the server
+    
+    All the Server should do is route data.  The Model or whatever should
+    handle the entire request.
+    
+    Also, minimize the amount of data send over the wires.  Only send the
+    whole database for `findAll` or `readAll`.
+
+commit 06a10839c68ad5ac4227143c58cf37bd986bde88
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Mon Sep 18 21:28:17 2017 -0400
+
+    Trying to implement an update
+    
+    Should I try to hammer out a PUT, or leave it at POST?
+    Do I make the modification on the client, then replace the entire
+    database on the server?
+    Should I make the modification on the server, and simply respond with
+    the changed element?
+    Probably the last one, to avoid sending a buttload of data over the
+    air.
+
+commit 0e91c1c0fd6276d3d3f8b205cdca337388e3b840
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Mon Sep 18 21:01:39 2017 -0400
+
+    Create a new todo on the server
+    
+    There are still some signals crossed
+    1. New todos get sent to the server, not localStorage
+    2. Todos shown in the list come from the server
+    3. No updates work yet
+    4. Deleting does not yet work
+
+commit 1a508198300262ba717f18e8b53993f14c3d3d10
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Mon Sep 18 17:10:29 2017 -0400
+
+    Run `find` through the server
+
+commit 03f71f6bf64ceec9fa36f4c317ae66fa2bafce8a
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Mon Sep 18 17:05:31 2017 -0400
+
+    Read todos from server
+    
+    Now, the todo list in the client gets populated by the todos on the
+    server.  Next step is to actually *write* todos into the array.
+
+commit 4eeffcf9d1aff132724414d3a3ba9b7cbcf10c77
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Mon Sep 18 08:29:39 2017 -0400
+
+    Access data on the server from todoMVC
+    
+    Tracer bullet.  Successful GET request fires off whenever 'findAll'
+    runs on the client.
+
+commit 57f624bcc2025c2d2d0fca288e3a18dcfce0978b
+Merge: b54da2d 7eb7df6
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Sun Sep 17 21:07:19 2017 -0400
+
+    too many readmes
+
+commit b54da2ded725b1e082d17f5f1cb5c05c656aeeec
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Sun Sep 17 14:50:23 2017 -0400
+
+    Analyze store.js
+
+commit 887bdffbfdd2ce15bef49962b6fc9ed3c2baf49c
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Sun Sep 17 14:01:17 2017 -0400
+
+    Move two dependencies to public
+    
+    These are required by TodoMVC.  Ultimately, dump these!
+
+commit 9195a4c8bdd05231b7f92660fd85dcce4de8e9e4
+Author: peter martinson <peter martinson>
+Date:   Sat Sep 16 23:09:33 2017 -0400
+
+    Begin adding summary of store.js
+    
+    Maybe this will become a blog post.  But, understanding this is
+    understanding how to make the interface to the server.
+
+commit fc8460431b4245274f5fba8c0ccc43c946b4894f
+Author: peter martinson <peter martinson>
+Date:   Sat Sep 16 21:34:28 2017 -0400
+
+    Fix readme
+
+commit 0549aeebc14a29f771b4571506619aa8f52ce9fd
+Author: peter martinson <peter martinson>
+Date:   Fri Sep 15 22:29:41 2017 -0400
+
+    Fix the db
+
+commit edf47f621a75d703ed0a159199d23842ce978fd1
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Fri Sep 15 21:31:09 2017 -0400
+
+    Rename readme.md to readme_2.md
+
+commit 7eb7df6fab7f722d6aed81927b927dfe6711a7eb
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Fri Sep 15 21:30:30 2017 -0400
+
+    Rename readme.md to readme_2.md
+
+commit d4c8a5040b9922c9f4e6aa1ff2f695885e83d9c1
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Fri Sep 15 20:33:52 2017 -0400
+
+    Start figuring out how Save works.
+
+commit 6bcd5d0975b8d40fddd2162bdfc566a423f88d04
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Tue Sep 12 17:03:59 2017 -0400
+
+    Ensure app runs via the server
+    
+    App now runs normally via the server.  Note that there are some stock
+    dependencies that ship with TodoMVC.  Probably remove these at some
+    point.
+
+commit ac6ac418c13e332ff42bd9307c074fc3fd9ab2e0
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Tue Sep 12 07:50:56 2017 -0400
+
+    Start arranging files
+
+commit 740bffeee078cbf49e611e1e786c8851ca6f70a3
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Wed Sep 6 07:50:35 2017 -0400
+
+    simple formatting changes and notes
+
+commit 04d7ee1af3d80f96e05fea7336e2e2c6f7a816d4
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Fri Sep 1 21:05:09 2017 -0400
+
+    Update README.md
+
+commit b5e9dd489893ae467705e1bb05a45b32a8f7a952
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Fri Sep 1 21:04:50 2017 -0400
+
+    Update README.md
+
+commit f5b92afaf833ee5b507f6ef567b507fb3143abaa
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Fri Sep 1 20:52:56 2017 -0400
+
+    Copy VanillaJS example from TodoMVC
+
+commit 37cc4f839e8ad65c9d38714bcd04fadc7e50d3ab
+Author: Peter Martinson <peter.j.martinson@gmail.com>
+Date:   Fri Sep 1 20:49:41 2017 -0400
+
+    Initial commit
