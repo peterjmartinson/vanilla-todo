@@ -78,5 +78,35 @@ created four new methods here:  `$get`, `$post`, `$put`, and
     };
 ```
 
-The function takes two arguments, a `route` and a callbacks called `handle`.  The
-route ultimately matches up with one of the Express routes in the server.
+The function takes two arguments, a `route` and a callback called `handle`.  The
+route ultimately matches up with one of the Express routes in the server.  That
+route is sent to the server with `request.open('GET', route);` and
+`request.send()`.  If there's a good response, the response gets sent to the
+callback.
+
+Next, who calls `$get`?  TodoMVC has a file called `store.js` that runs all the
+CRUD operations against your browser's `localStorage`.  We need to modify this
+file to instead run the CRUD operations against the server, using our new route
+REST handlers in `helpers.js`.
+
+To get items from storage, TodoMVC's Model calls its `read` function, which
+either calls Store's `find` or `findAll` functions, depending on how many
+arguments are given.  If `read` is passed a callback, it calls `store.findAll`;
+if it's passed a query object and a callback, it calls `store.find`, which only
+returns one object.
+
+`store.findAll` is constructed as follows:
+
+```JAVASCRIPT
+    Store.prototype.findAll = function (callback) {
+      callback = callback || function () {};
+      window.$get('/api/todo', function(data) {
+        callback.call(this, JSON.parse(data));
+      });
+    };
+```
+It simply passes the route `/api/todo` to our `$get` handler, and returns the
+response to the callback.  Note two things here:
+
+1. The response must be sent through `JSON.parse()`.  When the data objects are
+   flying through the internets, they're in the form of strings...
