@@ -1,5 +1,5 @@
 /*jshint esversion:6 */
-let model = require('../bin/model');
+let controller = require('../bin/db.ctrl');
 let todos = require('../data/todos').todos;
 let assert = require('assert');
 let sinon = require('sinon');
@@ -32,25 +32,25 @@ function findIndex (item_id) {
 
 // Tests ===============================
 
-describe('model.js', function() {
+describe('db.ctrl.js', function() {
   it('should have a Create method', function() {
-    assert.equal(typeof model.createItem, 'function');
+    assert.equal(typeof controller.createItem, 'function');
   });
   it('should have a Read method', function() {
-    assert.equal(typeof model.readItem, 'function');
+    assert.equal(typeof controller.readItem, 'function');
   });
   it('should have a Read All method', function() {
-    assert.equal(typeof model.readAllItems, 'function');
+    assert.equal(typeof controller.readAllItems, 'function');
   });
   it('should have a Update method', function() {
-    assert.equal(typeof model.updateItem, 'function');
+    assert.equal(typeof controller.updateItem, 'function');
   });
   it('should have a Delete method', function() {
-    assert.equal(typeof model.deleteItem, 'function');
+    assert.equal(typeof controller.deleteItem, 'function');
   });
 });
 
-describe('model.js - createItem()', function() {
+describe('db.ctrl.js - createItem()', function() {
   it('should create a new item', function(done) {
     let req = {
       body : {"title":"Shiny new test item", "completed":false, "id":10004}
@@ -62,11 +62,11 @@ describe('model.js - createItem()', function() {
         return data;
       }
     };
-    model.createItem(req, res);
+    controller.createItem(req, res);
   });
 });
 
-describe('model.js - readItem()', function() {
+describe('db.ctrl.js - readItem()', function() {
   it('should return a specific item', function(done) {
     let test_item = {"title":"readItem's test item", "completed":false, "id":10006};
     createTestItem(test_item);
@@ -82,7 +82,7 @@ describe('model.js - readItem()', function() {
         return data;
       }
     };
-    model.readItem(req, res);
+    controller.readItem(req, res);
   });
 
   it('should respond gracefully to bad requests', function(done) {
@@ -98,11 +98,11 @@ describe('model.js - readItem()', function() {
         return data;
       }
     };
-    model.readItem(req, res);
+    controller.readItem(req, res);
   });
 });
 
-describe('model.js - readAllItems()', function() {
+describe('db.ctrl.js - readAllItems()', function() {
   it('should return the whole database', function(done) {
     let size = todos.length;
     let req = {};
@@ -113,11 +113,11 @@ describe('model.js - readAllItems()', function() {
         return data;
       }
     };
-    model.readAllItems(req, res);
+    controller.readAllItems(req, res);
   });
 });
 
-describe('model.js - updateItem()', function() {
+describe('db.ctrl.js - updateItem()', function() {
   it('should update an existing item', function(done) {
     let test_item = {"title":"updateItem's test item", "completed":false, "id":10009};
     createTestItem(test_item);
@@ -132,11 +132,11 @@ describe('model.js - updateItem()', function() {
         return data;
       }
     };
-    model.updateItem(req, res);
+    controller.updateItem(req, res);
   });
 });
 
-describe('model.js - deleteItem()', function() {
+describe('db.ctrl.js - deleteItem()', function() {
   it('should remove an item from the list', function(done) {
     let test_item = {"title":"deleteItem's test item", "completed":false, "id":10013};
     createTestItem(test_item);
@@ -150,11 +150,11 @@ describe('model.js - deleteItem()', function() {
         return data;
       }
     };
-    model.deleteItem(req, res);
+    controller.deleteItem(req, res);
   });
 });
 
-describe('model.js - deleteAllItems()', function() {
+describe('db.ctrl.js - deleteAllItems()', function() {
   it('should empty the collection', function(done) {
     let test_item = {"title":"deleteAllItem's test item", "completed":false, "id":10015};
     createTestItem(test_item);
@@ -166,7 +166,7 @@ describe('model.js - deleteAllItems()', function() {
         return data;
       }
     };
-    model.deleteAllItems(req, res);
+    controller.deleteAllItems(req, res);
   });
 });
 
