@@ -10,7 +10,7 @@
 		return (scope || document).querySelectorAll(selector);
 	};
 
-  window.$get = function (route, handle) {
+  window.$get = function (route, callback) {
     let DONE = 4, OK = 200,
         request = new XMLHttpRequest();
     if (!request) {
@@ -23,7 +23,7 @@
       if (request.readyState === DONE) {
         if (request.status === OK) {
           let response = request.responseText;
-          handle(response);
+          callback(response);
         }
         else {
           console.log('GET Error: ' + request.status);
@@ -32,7 +32,7 @@
     }
   };
 
-  window.$post = function (route, parcel, handle) {
+  window.$post = function (route, parcel, callback) {
     let DONE = 4, OK = 200,
         request = new XMLHttpRequest();
     if (!request) {
@@ -46,7 +46,7 @@
       if (request.readyState === DONE) {
         if (request.status === OK) {
           let response = request.responseText;
-          handle(response);
+          callback(response);
         }
         else {
           console.log('POST Error: ' + request.status);
@@ -55,7 +55,7 @@
     }
   };
 
-  window.$put = function (route, parcel, handle) {
+  window.$put = function (route, parcel, callback) {
     let DONE = 4, OK = 200,
         request = new XMLHttpRequest();
     if (!request) {
@@ -69,7 +69,7 @@
       if (request.readyState === DONE) {
         if (request.status === OK) {
           let response = request.responseText;
-          handle(response);
+          callback(response);
         }
         else {
           console.log('PUT Error: ' + request.status);
@@ -78,7 +78,7 @@
     }
   };
 
-  window.$delete = function (route, handle) {
+  window.$delete = function (route, callback) {
     let DONE = 4, OK = 200,
         request = new XMLHttpRequest();
     if (!request) {
@@ -92,7 +92,7 @@
       if (request.readyState === DONE) {
         if (request.status === OK) {
           let response = request.responseText;
-          handle(response);
+          callback(response);
         }
         else {
           console.log('DELETE Error: ' + request.status);
