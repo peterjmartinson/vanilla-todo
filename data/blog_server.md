@@ -80,12 +80,13 @@ created four new methods here:  `$get`, `$post`, `$put`, and
 
 The function takes two arguments, a `route` and a callback called `handle`.  The
 route ultimately matches up with one of the Express routes in the server.  That
-route is sent to the server with `request.open('GET', route);` and
+route is sent to the server with `request.open('GET', route)` and
 `request.send()`.  If there's a good response, the response gets sent to the
 callback.
+(should just rename handle callback)
 
 Next, who calls `$get`?  TodoMVC has a file called `store.js` that runs all the
-CRUD operations against your browser's `localStorage`.  We need to modify this
+CRUD operations against the browser's `localStorage`.  We need to modify this
 file to instead run the CRUD operations against the server, using our new route
 REST handlers in `helpers.js`.
 
@@ -109,4 +110,13 @@ It simply passes the route `/api/todo` to our `$get` handler, and returns the
 response to the callback.  Note two things here:
 
 1. The response must be sent through `JSON.parse()`.  When the data objects are
-   flying through the internets, they're in the form of strings...
+   flying through the internets, they're in the form of strings put that way
+   with `JSON.stringify()`.  To be used as actual objects, they need to be
+   parsed.
+2. The parsed data isn't simply passed to the callback, but it's attached as a
+   property to the callback object.
+
+Back in the server, this route is caught by Express's `app.get()` method, which
+routes the request to the server's `model.js`, specifically to the
+`readAllItems` method.  All this guy does is `res.send()` the whole array of
+database items back through the pipeline.
