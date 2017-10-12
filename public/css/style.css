@@ -1,0 +1,18 @@
+.main {
+  display: inline-block;
+}
+
+.toggle-all {
+}
+
+.todo-list {
+}
+
+.header {
+  display: inline-block;
+  float: right;
+}
+
+.footer {
+  display: inline-block;
+}
