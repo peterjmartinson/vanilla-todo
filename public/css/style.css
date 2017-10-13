@@ -16,6 +16,14 @@
 }
 
 .footer {
-  display: inline-block;
+  display: block;
   border: 1px solid black;
+}
+
+.filters ul {
+  list-style-type: none;
+}
+
+.filters li {
+  display: inline-block;
 }
