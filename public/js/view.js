@@ -25,6 +25,7 @@
 		this.$footer          = qs('.footer');
 		this.$toggleAll       = qs('.toggle-all');
 		this.$newTodo         = qs('.new-todo');
+		this.$newTodoButton   = qs('.new-todo-button');
 	}
 
 	View.prototype._removeItem = function (id) {
@@ -108,7 +109,6 @@
 				self._clearCompletedButton(parameter.completed, parameter.visible);
 			},
 			contentBlockVisibility: function () {
-				// self.$main.style.display = self.$footer.style.display = parameter.visible ? 'block' : 'none';
 				self.$footer.style.display = parameter.visible ? 'block' : 'block';
 				self.$main.style.display = parameter.visible ? 'inline-block' : 'none';
 			},
@@ -175,7 +175,7 @@
 	View.prototype.bind = function (event, handler) {
 		var self = this;
 		if (event === 'newTodo') {
-			$on(self.$newTodo, 'change', function () {
+			$on(self.$newTodoButton, 'click', function () {
 				handler(self.$newTodo.value);
 			});
 
