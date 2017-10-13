@@ -1,5 +1,6 @@
 .main {
   display: inline-block;
+  border: 1px solid black;
 }
 
 .toggle-all {
@@ -11,8 +12,10 @@
 .header {
   display: inline-block;
   float: right;
+  border: 1px solid black;
 }
 
 .footer {
   display: inline-block;
+  border: 1px solid black;
 }

@@ -37,7 +37,7 @@
 
 	View.prototype._clearCompletedButton = function (completedCount, visible) {
 		this.$clearCompleted.innerHTML = this.template.clearCompletedButton(completedCount);
-		this.$clearCompleted.style.display = visible ? 'block' : 'none';
+		this.$clearCompleted.style.display = visible ? 'inline-block' : 'none';
 	};
 
 	View.prototype._setFilter = function (currentPage) {
@@ -108,7 +108,7 @@
 				self._clearCompletedButton(parameter.completed, parameter.visible);
 			},
 			contentBlockVisibility: function () {
-				self.$main.style.display = self.$footer.style.display = parameter.visible ? 'block' : 'none';
+				self.$main.style.display = self.$footer.style.display = parameter.visible ? 'inline-block' : 'none';
 			},
 			toggleAll: function () {
 				self.$toggleAll.checked = parameter.checked;
