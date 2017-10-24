@@ -1,8 +1,13 @@
-.main {
-  display: inline-block;
-  float: left;
-  background-color: lightgreen;
-  width: 200px;
+html {
+  height: 100%;
+  width: 100%;
+  box-sizing:     border-box;
+}
+
+body {
+  margin: 0px;
+  height: 100%;
+  border: 3px solid black;
 }
 
 .toggle-all {
@@ -11,16 +16,38 @@
 .todo-list {
 }
 
-.header {
-  display: inline-block;
-  margin-left: 200px;
-  float: left;
-  background-color: lightsalmon;
+.footer {
+  position: fixed;
+  display: block;
+  height: 100px;
+  width: 100%;
+  background-color: aqua;
 }
 
-.footer {
-  display: block;
-  background-color: lightblue;
+.note {
+  position: fixed;
+  margin-top: 100px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.main {
+  background-color: chartreuse;
+  float: left;
+  width: 200px;
+  height: 100%;
+}
+
+.header {
+  background-color: lightsalmon;
+  padding-left: 200px;
+}
+
+.header textarea {
+  display: inline;
+  background-color: lightgoldenrodyellow;
+  border: 1px solid black;
 }
 
 .filters ul {
@@ -37,11 +64,7 @@
   height: 300px;
 }
 
-.note {
-  display:block;
-  overflow: hidden;
-}
-
 .info {
   clear: both;
 }
+
