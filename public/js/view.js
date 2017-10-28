@@ -59,6 +59,7 @@
 		qs('input', listItem).checked = completed;
 	};
 
+  // *** YOU ARE HERE ***
 	View.prototype._editItem = function (id, title) {
 		var listItem = qs('[data-id="' + id + '"]');
 
@@ -74,6 +75,10 @@
 		listItem.appendChild(input);
 		input.focus();
 		input.value = title;
+
+    // put text into the textarea here!!!
+    var text_box = qs('.new-todo');
+    text_box.value = title;
 	};
 
 	View.prototype._editItemDone = function (id, title) {
