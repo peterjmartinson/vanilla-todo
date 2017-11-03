@@ -1,8 +1,15 @@
 /*global app, jasmine, describe, it, beforeEach, expect */
+/*
+model.read.and.callFake(function (query, callback) {
+.createSpy
+.createSpyObj
+expect(??).toHaveBeenCalledWith
 
+*/
 describe('controller', function () {
 	'use strict';
 
+// ------------  SETUP
 	var subject, model, view;
 
 	var setUpModel = function (todos) {
@@ -65,6 +72,8 @@ describe('controller', function () {
 
 		expect(view.render).toHaveBeenCalledWith('showEntries', []);
 	});
+
+// ---------  RUN TESTS
 
 	describe('routing', function () {
 
@@ -328,9 +337,9 @@ describe('controller', function () {
 	describe('edit item', function () {
 		it('should switch to edit mode', function () {
 			var todo = {id: 21, title: 'my todo', completed: false};
-			setUpModel([todo]);
+			setUpModel([todo]); // loads all the model methods
 
-			subject.setView('');
+			subject.setView(''); // runs Controller's setView
 
 			view.trigger('itemEdit', {id: 21});
 

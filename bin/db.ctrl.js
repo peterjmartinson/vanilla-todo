@@ -4,15 +4,15 @@
   'use strict';
 
   // let db = require('../data/metadata'),
-  let db = require('../data/todos').todos;
+  let db = require('../data/notes').notes;
 
   let model = {
 
     readItem : function (req, res) {
       let query = JSON.parse(req.params.query);
-      let return_array = db.filter(function (todo) {
+      let return_array = db.filter(function (note) {
         for (let q in query) {
-          if (query[q] !== todo[q]) {
+          if (query[q] !== note[q]) {
             return false;
           }
         }
@@ -21,15 +21,19 @@
       res.send(return_array);
     },
 
-    // todo: autopopulate the ID
+    // note: autopopulate the ID
     createItem : function (req, res) {
       let response = { success: false, message: '', item: {} };
+      let new_item = req.body;
       let old_length = db.length;
-      let new_length = db.push(req.body);
+      new_item.creation_date = new Date();
+      new_item.modified_date = new_item.creation_date;
+      let new_length = db.push(new_item);
       if ( new_length > old_length ) {
         response.item = JSON.stringify(db[db.length-1]);
         response.success = true;
         response.message = 'New item ' + response.item + ' has been added';
+        console.log(JSON.stringify(db))
         res.send(response);
       }
       else {
@@ -41,6 +45,7 @@
     updateItem : function (req, res) {
       let item_index = findIndex(req.params.id);
       let update_data = req.body;
+      update_data.modified_date = new Date();
       let response = { success: false, message: '', item: {} };
       if (item_index < 0) {
         response.message = 'Item not found';

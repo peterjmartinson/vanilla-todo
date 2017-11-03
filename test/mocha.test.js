@@ -1,19 +1,21 @@
 /*jshint esversion:6 */
 let controller = require('../bin/db.ctrl');
-let todos = require('../data/todos').todos;
+let notes = require('../data/notes').notes;
 let assert = require('assert');
 let sinon = require('sinon');
 
 // Test API ============================
 
 function createTestItem(new_item) {
-  todos.push(new_item);
+  new_item.creation_date = new Date();
+  new_item.modified_date = new_item.creation_date;
+  notes.push(new_item);
 }
 
 function removeTestItem(id) {
   let index = findIndex(id);
   if (index) {
-    todos.splice(index, 1);
+    notes.splice(index, 1);
   }
   else {
     console.log("No item found!");
@@ -24,8 +26,8 @@ function findIndex (item_id) {
   if ( item_id < 1) {
     return -1;
   }
-  for (let i = 0; i < todos.length; i++) {
-    if (todos[i].id == item_id) return i;
+  for (let i = 0; i < notes.length; i++) {
+    if (notes[i].id == item_id) return i;
   }
   return -1;
 }
@@ -57,7 +59,7 @@ describe('db.ctrl.js - createItem()', function() {
     };
     let res = {
       send : function(data) {
-        assert.equal(todos[todos.length-1].id, 10004);
+        assert.equal(notes[notes.length-1].id, 10004);
         done();
         return data;
       }
@@ -104,7 +106,7 @@ describe('db.ctrl.js - readItem()', function() {
 
 describe('db.ctrl.js - readAllItems()', function() {
   it('should return the whole database', function(done) {
-    let size = todos.length;
+    let size = notes.length;
     let req = {};
     let res = {
       send : function(data) {
@@ -127,7 +129,7 @@ describe('db.ctrl.js - updateItem()', function() {
     };
     let res = {
       send : function(data) {
-        assert.equal(todos[todos.length-1].completed, true);
+        assert.equal(notes[notes.length-1].completed, true);
         done();
         return data;
       }
@@ -161,7 +163,7 @@ describe('db.ctrl.js - deleteAllItems()', function() {
     let req = {};
     let res = {
       send : function(data) {
-        assert.equal(todos.length, 0);
+        assert.equal(notes.length, 0);
         done();
         return data;
       }
